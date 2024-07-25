@@ -14,7 +14,7 @@
           <div>
             <div>Author - <a href="/users/{{$blog->author->username}}">{{$blog->author->name}}</a></div>
             <div class="badge bg-primary">
-                <a href="/categories/{{$blog->category->slug}}">{{$blog->category->name}}</a>
+                <a href="/categories/{{$blog->category->slug}}" class="text-white text-decoration-none">{{$blog->category->name}}</a>
             </div>
             <div>{{$blog->created_at->diffForHumans()}}</div>
           </div>
@@ -24,7 +24,8 @@
         </div>
       </div>
     </div>
-
+    <!-- comment section -->
+    <x-comments :comments="$blog->comments"/>
     <!-- subscribe new blogs -->
     <x-subscribe-section/>
 

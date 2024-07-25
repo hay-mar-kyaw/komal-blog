@@ -8,11 +8,11 @@
     <div class="card-body">
       <h3 class="card-title">{{$blog->title}}</h3>
       <p class="fs-6 text-secondary">
-        <a href="/users/{{$blog->author->username}}" class="text-decoration-none">{{$blog->author->name}}</a>
+        <a href="/?username={{$blog->author->username}}" class="text-decoration-none">{{$blog->author->name}}</a>
         <span> - {{$blog->created_at->diffForHumans()}}</span>
       </p>
       <div class="tags my-3">
-        <a href="/categories/{{$blog->category->slug}}" class="badge bg-primary text-white text-decoration-none">{{$blog->category->name}}</a>
+        <a href="/?category={{$blog->category->slug}}" class="badge bg-primary text-white text-decoration-none">{{$blog->category->name}}</a>
       </div>
       <p class="card-text">
         {{$blog->intro}}
