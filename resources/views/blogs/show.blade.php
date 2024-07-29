@@ -17,6 +17,17 @@
                 <a href="/categories/{{$blog->category->slug}}" class="text-white text-decoration-none">{{$blog->category->name}}</a>
             </div>
             <div>{{$blog->created_at->diffForHumans()}}</div>
+            <div>
+                <form action="" method="post">
+                    @auth
+                        @if (auth()->user()->isSubscribe($blog))
+                            <button class="btn btn-danger">UnSubscribe</button>
+                        @else
+                            <button class="btn btn-warning">Subscribe</button>
+                        @endif
+                    @endauth
+                </form>
+            </div>
           </div>
           <p class="lh-md mt-3">
             {{$blog->body}}
@@ -25,12 +36,18 @@
       </div>
     </div>
     <!-- comment section -->
-    <x-comments :comments="$blog->comments"/>
-    <!-- subscribe new blogs -->
-    <x-subscribe-section/>
+    <section class="container">
+        <div class="col-md-8  mx-auto">
+            <x-comment-form :blog="$blog"/>
+        </div>
+    </section>
+    @if($blog->comments->count())
+    <x-comments :comments="$blog->comments()->latest()->paginate(3)" />
+    @endif
 
+    <!-- subscribe new blogs -->
     <x-blogs_you_may_like :randomBlogs="$randomBlogs"/>
 
-</x-slot>
+    </x-slot>
 </x-layout>
 

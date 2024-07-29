@@ -1,6 +1,9 @@
 <x-layout>
     <x-slot name="content">
 
+      @if(session('success'))
+         <div class="alert alert-success text-center">{{session('success')}}</div>
+      @endif
       <!-- hero section -->
       <x-hero-section/>
 
@@ -8,11 +11,6 @@
       <x-blog-section
       :blogs="$blogs"
       />
-
-      <!-- subscribe new blogs -->
-      <x-subscribe-section/>
-
-
     </x-slot>
 
 </x-layout>

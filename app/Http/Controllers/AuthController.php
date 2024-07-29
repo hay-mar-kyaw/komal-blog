@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -20,7 +21,7 @@ class AuthController extends Controller
      */
     public function create()
     {
-        return view('register.create');
+        return view('auth.register');
     }
 
     /**
@@ -35,41 +36,40 @@ class AuthController extends Controller
                         'password'=>'required|min:8|max:255'
 
                             ]);
-
         $user = User::create($formData);
-        // sessio()->flash('success','Welcome Dear'.$user->username);
-        return redirect('/')->with('success','Welcome Dear'.$user->username);
+        auth()->login($user);
+        // session()->flash('success','Welcome Dear'.$user->username);
+        return redirect('/')->with('success','Welcome Dear '.$user->username);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+    public function logout(){
+        auth()->logout();
+        return redirect('/')->with('success','Good luck!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function login(){
+        return view('auth.login');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function post_login(){
+
+        //validation
+        $formData=request()->validate([
+            'email'=>['required','max:255',Rule::exists('users','email')],
+            'password'=>['required','min:8','max:255']
+        ],[
+            'email.required'=>'Please enter your email',
+            'password.min'=>'Password must be 8 character'
+        ]);
+
+        //auth attempt
+        if(auth()->attempt($formData)){
+            return redirect('/')->with('success','Welcome Back!!');
+        }else{
+            return back()->withErrors([
+                'email'=>'User Creditical Wrong'
+            ]);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
