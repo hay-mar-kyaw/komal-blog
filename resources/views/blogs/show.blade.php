@@ -18,12 +18,13 @@
             </div>
             <div>{{$blog->created_at->diffForHumans()}}</div>
             <div>
-                <form action="" method="post">
+                <form action="/blogs/{{$blog->slug}}/subscription" method="POST">
+                    @csrf
                     @auth
                         @if (auth()->user()->isSubscribe($blog))
-                            <button class="btn btn-danger">UnSubscribe</button>
+                            <button type="submit" class="btn btn-danger">UnSubscribe</button>
                         @else
-                            <button class="btn btn-warning">Subscribe</button>
+                            <button type="submit" class="btn btn-warning">Subscribe</button>
                         @endif
                     @endauth
                 </form>
